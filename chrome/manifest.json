@@ -1,0 +1,23 @@
+{
+  "name": "Walkway",
+  "version": "0.1",
+  "description": "Social shopping browser extension.",
+
+  "permissions": [
+    "http://piick.lan/*",
+    "notifications"
+  ],
+  "icons": {
+    "48" : "sample-48.png",
+    "128" : "sample-128.png"
+  },
+  "background_page" : "background.html",
+  "content_scripts": [
+    {
+      "matches" : ["http://*/*", "https://*/*"],
+      "js" : ["contentscript.js"],
+      "css" : ["notification.css"]
+    }
+  ]
+
+}
