@@ -2,9 +2,9 @@
  * @param data Object JSON decoded response.  Null if the request failed.
  */
 function onText(data) {
-  // Only render the bar if the data is parsed into a format we recognize.
-  console.log(data);
-  if (data && data.authenticated && data.first_visit) {
+  // Only render the notification if this is a shopping site
+  // the user is authenticated against the server.
+  if (data && data.authenticated && data.check_in) {
 
     // Create the overlay at the top of the page and fill it with data.
     var roar_body = document.createElement('div');
@@ -29,7 +29,7 @@ function onText(data) {
     
     window.setTimeout(function() {
         document.body.removeChild(roar_body);
-    }, 5000);
+    }, 4000);
   }
 };
 
