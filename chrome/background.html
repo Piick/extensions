@@ -5,12 +5,13 @@
   <body>
     <script>
       /**
-       * Performs an XMLHttpRequest to Twitter's API to get trending topics.
+       * Performs an XMLHttpRequest to Piick's API to notify the server that
+       * the user browsed to a new page to see if it's a shopping url.
        * @param callback Function If the response from fetching url has a
        *     HTTP status of 200, this function is called with a JSON decoded
        *     response.  Otherwise, this function is called with null.
        */
-      function notifyBrowse(browse_url, callback) {
+      function browse(browse_url, callback) {
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function(data) {
           if (xhr.readyState == 4) {
@@ -21,16 +22,44 @@
               callback(null);
             }
           }
-        }
-        // Note that any URL fetched here must be matched by a permission in
-        // the manifest.json file!
-        var url = 'http://piick.lan/api/browse.json';
-        xhr.open('POST', url, true);
+        };
+        
+        xhr.open('POST', 'http://piick.lan/api/browse.json', true);
         xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 				xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded')
         xhr.send('browse_url='+browse_url);
       };
 
+      /**
+       *
+       */
+      var errorSleepTime = 500;
+      function waitOnAlerts() {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function(data) {
+          if (xhr.readyState == 4) {
+            if (xhr.status == 200) {
+              errorSleepTime = 500;
+              window.setTimeout(waitOnAlerts, errorSleepTime);
+              console.log(JSON.parse(xhr.responseText));
+              chrome.tabs.getSelected(null, function(tab) {
+                console.log(tab);
+                chrome.tabs.sendRequest(tab.id, {action: "alert", alerts: JSON.parse(xhr.responseText)});
+              });
+            } else {
+              errorSleepTime *= 2;
+              window.setTimeout(waitOnAlerts, errorSleepTime);
+              console.log("Error receiving notifications. Waiting " + errorSleepTime + "ms.");
+            }
+          }
+        };
+        
+        xhr.open('POST', 'http://piick.lan/api/browser_alerts.json', true);
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        xhr.send();
+      };
+
+			
       /**
        * Handles data sent via chrome.extension.sendRequest().
        * @param request Object Data sent in the request.
@@ -40,13 +69,19 @@
       function onRequest(request, sender, callback) {
         // Only supports the 'fetchTwitterFeed' method, although this could be
         // generalized into a more robust RPC system.
-				if (request.action == 'browse') {
-					notifyBrowse(request.browseUrl, callback);
-        }
+				switch (request.action) {
+					case 'browse':
+						browse(request.browseUrl, callback);
+						break;
+				}
       };
 
       // Wire up the listener.
       chrome.extension.onRequest.addListener(onRequest);
+
+      // Start waiting on notifications.
+      waitOnAlerts();    
+      
     </script>
   </body>
 </html>

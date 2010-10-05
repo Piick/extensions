@@ -6,7 +6,8 @@
   
   "permissions": [
     "http://piick.lan/*",
-    "notifications"
+    "notifications",
+    "tabs"
   ],
   "icons": {
     "48" : "icon-48.png",
