@@ -4,6 +4,8 @@
   </head>
   <body>
     <script>
+      var hostname = "piick.lan";
+
       /**
        * Performs an XMLHttpRequest to Piick's API to notify the server that
        * the user browsed to a new page to see if it's a shopping url.
@@ -24,7 +26,7 @@
           }
         };
         
-        xhr.open('POST', 'http://piick.lan/api/browse.json', true);
+        xhr.open('POST', 'http://'+hostname+'/api/browse.json', true);
         xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 				xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded')
         xhr.send('browse_url='+browse_url);
@@ -49,6 +51,8 @@
                   onError();
                   return;
               }
+
+              // Send these alerts to the currently displayed tab. 
               chrome.tabs.getSelected(null, function(tab) {
                   chrome.tabs.sendRequest(tab.id, {action: "alert", alerts: alerts});
               });
@@ -66,7 +70,7 @@
           }
         };
         
-        xhr.open('POST', 'http://piick.lan/api/alerts.json', true);
+        xhr.open('POST', 'http://'+hostname+'/api/alerts.json', true);
         xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
         xhr.send();
       };
@@ -91,7 +95,7 @@
       // Wire up the listener.
       chrome.extension.onRequest.addListener(onRequest);
 
-      // Start waiting on notifications.
+      // Start waiting on alerts.
       waitOnAlerts();    
       
     </script>

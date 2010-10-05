@@ -1,3 +1,5 @@
+var hostname = 'piick.lan';
+
 // Simple JavaScript Templating.
 (function(){var b={};this.tmpl=function e(a,c){var d=!/\W/.test(a)?b[a]=b[a]||e(document.getElementById(a).innerHTML):new Function("obj","var p=[],print=function(){p.push.apply(p,arguments);};with(obj){p.push('"+a.replace(/[\r\t\n]/g," ").split("<%").join("\t").replace(/((^|%>)[^\t]*)'/g,"$1\r").replace(/\t=(.*?)%>/g,"',$1,'").split("\t").join("');").split("%>").join("p.push('").split("\r").join("\\'")+"');}return p.join('');");return c?d(c):d}})();
 
@@ -93,7 +95,7 @@ function onRequest(request, sender, callback) {
 };
 
 
-if (window.location.href.indexOf('piick.') == -1) {
+if (window.location.href.indexOf(hostname) == -1) {
   // Send the url to the server for processing.
   chrome.extension.sendRequest({'action' : 'browse',
                                 'browseUrl': window.location.href}, onBrowse);

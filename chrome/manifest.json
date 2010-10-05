@@ -1,12 +1,11 @@
 {
   "name": "Walkway",
   "version": "0.2",
-  "description": "Social shopping browser extension.",
-  "update_url": "http://piick.com/static/extensions/chrome_updates.xml",
+  "description": "Social shopping experience.",
+  "update_url": "http://piick.lan/static/extensions/chrome_updates.xml",
   
   "permissions": [
     "http://piick.lan/*",
-    "notifications",
     "tabs"
   ],
   "icons": {
