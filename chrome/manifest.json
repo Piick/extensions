@@ -9,8 +9,8 @@
     "notifications"
   ],
   "icons": {
-    "48" : "sample-48.png",
-    "128" : "sample-128.png"
+    "48" : "icon-48.png",
+    "128" : "icon-128.png"
   },
   "background_page" : "background.html",
   "content_scripts": [
