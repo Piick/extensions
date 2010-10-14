@@ -1,0 +1,6 @@
+content   walkway                 chrome/content/
+skin      walkway   classic/1.0   chrome/skin/
+locale    walkway   en-US         chrome/locale/en-US/
+
+
+overlay   chrome://browser/content/browser.xul   chrome://walkway/content/ff-overlay.xul

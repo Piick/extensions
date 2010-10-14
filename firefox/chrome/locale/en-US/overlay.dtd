@@ -1,0 +1,8 @@
+<!ENTITY walkway.label "Your localized menuitem">
+<!ENTITY walkwayContext.label "Your Menuitem">
+<!ENTITY walkwayContext.accesskey "Y">
+<!ENTITY walkwayToolbarButton.label "Your Toolbar Button">
+<!ENTITY walkwayToolbarButton.tooltip "This is your toolbar button!">
+<!ENTITY walkwaySidebar.label "Your Sidebar">
+<!ENTITY walkwayToolbar.name  "example">
+<!ENTITY walkwayToolbar.label "This is an example toolbar. You can hide it under View &gt; toolbars &gt; &walkwayToolbar.name;">
